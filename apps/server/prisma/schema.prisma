@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Board {
+  id         String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name       String      @db.VarChar(255)
+  createdAt  DateTime?   @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt  DateTime?   @default(now()) @map("updated_at") @db.Timestamp(6)
+  boardTasks BoardTask[]
+
+  @@map("boards")
+}
+
+model BoardTask {
+  boardId String @map("board_id") @db.Uuid
+  taskId  Int    @map("task_id")
+  board   Board  @relation(fields: [boardId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([boardId, taskId])
+  @@index([boardId], map: "idx_boards_tasks_board_id")
+  @@map("boards_tasks")
+}
+
+model Task {
+  id          String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String     @db.VarChar(255)
+  description String?
+  status      TaskStatus @default(ToDo)
+  createdAt   DateTime?  @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt   DateTime?  @default(now()) @map("updated_at") @db.Timestamp(6)
+
+  @@map("tasks")
+}
+
+enum TaskStatus {
+  ToDo
+  InProgress @map("In Progress")
+  Done
+
+  @@map("task_status")
+}
