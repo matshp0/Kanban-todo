@@ -1,11 +1,5 @@
-import {
-  IsEnum,
-  IsOptional,
-  IsString,
-  IsUUID,
-  MaxLength,
-} from "class-validator";
-import { TaskStatus } from "../database";
+import { IsEnum, IsOptional, IsString, MaxLength } from 'class-validator';
+import { TaskStatus } from '../database';
 
 export class CreateTaskDto {
   @IsString()

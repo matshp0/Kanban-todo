@@ -1,2 +1,2 @@
-export * from "./Board.dto";
-export * from "./Task.dto";
+export * from './Board.dto';
+export * from './Task.dto';

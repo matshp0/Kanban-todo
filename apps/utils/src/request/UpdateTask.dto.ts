@@ -1,5 +1,5 @@
-import { IsString, MaxLength, IsEnum, IsOptional } from "class-validator";
-import { TaskStatus } from "../database";
+import { IsString, MaxLength, IsEnum, IsOptional } from 'class-validator';
+import { TaskStatus } from '../database';
 
 export class UpdateTaskDto {
   @IsOptional()

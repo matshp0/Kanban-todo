@@ -1,5 +1,5 @@
-import { Expose } from "class-transformer";
-import { TaskStatus } from "../database/enums";
+import { Expose } from 'class-transformer';
+import { TaskStatus } from '../database/enums';
 
 export class TaskDto {
   @Expose()
