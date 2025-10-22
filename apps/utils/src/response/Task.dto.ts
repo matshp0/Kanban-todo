@@ -13,4 +13,10 @@ export class TaskDto {
 
   @Expose()
   status: TaskStatus;
+
+  @Expose()
+  createdAt: Date;
+
+  @Expose()
+  updatedAt: Date;
 }
