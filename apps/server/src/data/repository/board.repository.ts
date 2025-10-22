@@ -6,27 +6,35 @@ import { Prisma } from 'generated';
 export class BoardRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
-  findAll() {
-    return this.prismaService.board.findMany();
+  async findAll() {
+    return await this.prismaService.board.findMany();
   }
 
-  create(data: Prisma.BoardCreateInput) {
-    return this.prismaService.board.create({
+  async create(data: Prisma.BoardCreateInput) {
+    return await this.prismaService.board.create({
       data,
     });
   }
 
-  findById(id: string) {
-    return this.prismaService.board.findUnique({
+  async findById(id: string) {
+    return await this.prismaService.board.findUnique({
       where: {
         id,
       },
     });
   }
 
-  updateById(id: string, data: Prisma.BoardUpdateInput) {
-    return this.prismaService.board.update({
+  async updateById(id: string, data: Prisma.BoardUpdateInput) {
+    return await this.prismaService.board.update({
       data,
+      where: {
+        id: id,
+      },
+    });
+  }
+
+  async deleteById(id: string) {
+    return await this.prismaService.board.delete({
       where: {
         id: id,
       },
