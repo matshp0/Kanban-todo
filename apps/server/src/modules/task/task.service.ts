@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTaskDto, TaskDto, UpdateTaskDto } from '@todo/utils';
+import { TaskDto, UpdateTaskDto } from '@todo/utils';
 import { plainToInstance } from 'class-transformer';
 import { TaskRepository } from 'src/data/repository/task.repository';
 
