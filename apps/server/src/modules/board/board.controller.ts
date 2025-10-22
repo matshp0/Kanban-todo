@@ -10,7 +10,13 @@ import {
   Post,
 } from '@nestjs/common';
 import { BoardService } from './board.service';
-import { BoardDto, CreateBoardDto, UpdateBoardDto } from '@todo/utils';
+import {
+  BoardDto,
+  CreateBoardDto,
+  CreateTaskDto,
+  TaskDto,
+  UpdateBoardDto,
+} from '@todo/utils';
 
 @Controller('boards')
 export class BoardController {
@@ -29,6 +35,19 @@ export class BoardController {
   @Get('/:id')
   findById(@Param('id') id: string): Promise<BoardDto> {
     return this.boardService.findById(id);
+  }
+
+  @Get('/:id/tasks')
+  findTasksById(@Param('id') id: string): Promise<TaskDto[]> {
+    return this.boardService.findTasksById(id);
+  }
+
+  @Post('/:id/tasks')
+  createTask(
+    @Param('id') id: string,
+    @Body() dto: CreateTaskDto,
+  ): Promise<TaskDto> {
+    return this.boardService.createTask(id, dto);
   }
 
   @Patch('/:id/name')

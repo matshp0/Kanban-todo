@@ -1,12 +1,16 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { BoardRepository } from 'src/data/repository/board.repository';
-import { BoardDto } from '@todo/utils/response';
+import { BoardDto, TaskDto } from '@todo/utils/response';
 import { plainToInstance } from 'class-transformer';
-import { CreateBoardDto, UpdateBoardDto } from '@todo/utils';
+import { CreateBoardDto, CreateTaskDto, UpdateBoardDto } from '@todo/utils';
+import { TaskRepository } from 'src/data/repository/task.repository';
 
 @Injectable()
 export class BoardService {
-  constructor(private readonly boardRepository: BoardRepository) {}
+  constructor(
+    private readonly boardRepository: BoardRepository,
+    private readonly taskRepository: TaskRepository,
+  ) {}
 
   async getAll(): Promise<BoardDto[]> {
     const boards = await this.boardRepository.findAll();
@@ -21,6 +25,19 @@ export class BoardService {
   async findById(id: string): Promise<BoardDto> {
     const board = await this.boardRepository.findById(id);
     return plainToInstance(BoardDto, board);
+  }
+
+  async findTasksById(id: string): Promise<TaskDto[]> {
+    const board = await this.boardRepository.findById(id);
+    if (!board) {
+      throw new NotFoundException('Board not found');
+    }
+    const tasks = await this.taskRepository.findByBoardId(id);
+
+    return plainToInstance(
+      TaskDto,
+      tasks.map(({ task }) => task),
+    );
   }
 
   async updateName(id: string, dto: UpdateBoardDto): Promise<BoardDto> {
@@ -38,5 +55,14 @@ export class BoardService {
       throw new NotFoundException('Board not found');
     }
     await this.boardRepository.deleteById(id);
+  }
+
+  async createTask(id: string, dto: CreateTaskDto): Promise<TaskDto> {
+    const existingBoard = await this.boardRepository.findById(id);
+    if (!existingBoard) {
+      throw new NotFoundException('Board not found');
+    }
+    const board = await this.taskRepository.create(id, dto);
+    return plainToInstance(TaskDto, board);
   }
 }
