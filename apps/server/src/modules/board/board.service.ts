@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { BoardRepository } from 'src/data/repository/board.repository';
-import { BoardDto, TaskDto } from '@todo/utils/response';
+import { BoardDto, TaskDto } from '@todo/utils';
 import { plainToInstance } from 'class-transformer';
 import { CreateBoardDto, CreateTaskDto, UpdateBoardDto } from '@todo/utils';
 import { TaskRepository } from 'src/data/repository/task.repository';
@@ -24,6 +24,9 @@ export class BoardService {
 
   async findById(id: string): Promise<BoardDto> {
     const board = await this.boardRepository.findById(id);
+    if (!board) {
+      throw new NotFoundException('Board not found');
+    }
     return plainToInstance(BoardDto, board);
   }
 

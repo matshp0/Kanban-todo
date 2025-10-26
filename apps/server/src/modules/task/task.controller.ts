@@ -9,7 +9,7 @@ import {
   Patch,
 } from '@nestjs/common';
 import { TaskService } from './task.service';
-import { TaskDto } from '@todo/utils/response';
+import { TaskDto } from '@todo/utils';
 import { UpdateTaskDto } from '@todo/utils';
 
 @Controller('tasks')

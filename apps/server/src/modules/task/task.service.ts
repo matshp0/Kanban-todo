@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { TaskDto, UpdateTaskDto } from '@todo/utils';
 import { plainToInstance } from 'class-transformer';
 import { TaskRepository } from 'src/data/repository/task.repository';
@@ -14,6 +14,9 @@ export class TaskService {
 
   async findById(id: string): Promise<TaskDto> {
     const task = await this.taskRepository.findById(id);
+    if (!task) {
+      throw new NotFoundException('Task not found');
+    }
     return plainToInstance(TaskDto, task);
   }
 
