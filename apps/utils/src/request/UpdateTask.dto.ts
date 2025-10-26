@@ -14,5 +14,5 @@ export class UpdateTaskDto {
 
   @IsOptional()
   @IsEnum(TaskStatus)
-  status: TaskStatus;
+  status?: TaskStatus;
 }

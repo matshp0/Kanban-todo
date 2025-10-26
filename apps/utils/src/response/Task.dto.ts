@@ -9,14 +9,14 @@ export class TaskDto {
   name: string;
 
   @Expose()
-  description?: string;
+  description: string | null;
 
   @Expose()
   status: TaskStatus;
 
   @Expose()
-  createdAt: Date;
+  createdAt: string;
 
   @Expose()
-  updatedAt: Date;
+  updatedAt: string;
 }
